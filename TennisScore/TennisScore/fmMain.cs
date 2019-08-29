@@ -17,8 +17,10 @@ namespace TennisScore
         Match _match;
         Player[] _players;
 
-        private fmMain() => 
+        private fmMain()
+        {
             InitializeComponent();
+        }
 
         public fmMain(Match match) : this()
         {
