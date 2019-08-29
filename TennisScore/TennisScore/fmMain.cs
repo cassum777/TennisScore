@@ -61,6 +61,7 @@ namespace TennisScore
         private void BtnPlayer1_Click(object sender, EventArgs e)
         {
             _match.AddScore(PlayerType.FirstPlayer);
+            UpdatePlayers();
         }
 
 
@@ -92,9 +93,13 @@ namespace TennisScore
             lblScorePlayer2.Text = _players[1].ScoreString;
             pbBallPlayer1.Visible = _players[0].IsServe;
             pbBallPlayer2.Visible = _players[1].IsServe;
-            foreach(var player in _match.Players)
+
+            for(var i = 0; i < 2; i++)
             {
+                dgSummMatch.Rows[i].Cells[1].Value = _players[i].GamesWon.ToString();
             }
+  
+
         }
     }
 }
