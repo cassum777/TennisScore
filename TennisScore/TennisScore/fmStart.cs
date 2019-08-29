@@ -36,14 +36,15 @@ namespace TennisScore
 
         private void btnStartGame_Click(object sender, EventArgs e)
         {
-            var nSet = 3;
-            if (rbColSet5.Checked)
-                nSet = 5;
+            //var nSet = 3;
+            //if (rbColSet5.Checked)
+            //    nSet = 5;
+            var nSet = rbColSet3.Checked ? 3 : 5;
 
             var players = new Player[]
             {
-                new Player(){ Name = rbPlayer1.Text, PlayerType = PlayerType.FirstPlayer },
-                new Player(){ Name = rbPlayer2.Text, PlayerType = PlayerType.SecondPlayer }
+                new Player(){ Name = tbNameFirsPlayer.Text, PlayerType = PlayerType.FirstPlayer, IsServe = rbPlayer1.Checked },
+                new Player(){ Name = tbNameSecondPlayer.Text, PlayerType = PlayerType.SecondPlayer, IsServe = rbPlayer2.Checked }
             };
             var match = new Match(players, nSet);
             var fmMain = new fmMain(match);
