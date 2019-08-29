@@ -10,6 +10,7 @@ namespace TennisScore
 {
     public class Match
     {
+        public bool TimeBreak { get; set; }
         public Player[] Players { get; private set; }
         public Match(Player[] players, int nset)
         {
@@ -18,7 +19,7 @@ namespace TennisScore
         }
         public int NSets { get; set; }
 
-        public void AddScore(Player firstPlayer, Player secondPlayer)
+        private void AddScore(Player firstPlayer, Player secondPlayer)
         {
             switch (firstPlayer.Score)
             {
@@ -66,18 +67,23 @@ namespace TennisScore
         }
         public void AddScore(PlayerType player)
         {
-            switch (player)
+            if (!TimeBreak)
             {
-                case PlayerType.FirstPlayer:
+                if(player == PlayerType.FirstPlayer)
                     AddScore(Players[0], Players[1]);
-                    return;
-                case PlayerType.SecondPlayer:
+                else
                     AddScore(Players[1], Players[0]);
-                    return;
+            }
+            else
+            {
+                if (player == PlayerType.FirstPlayer)
+                    AddScopeTimeBreak(Players[0], Players[1]);
+                else
+                    AddScopeTimeBreak(Players[1], Players[0]);
             }
         }
 
-        public void AddNGame(Player firstPlayer, Player secondPlayer)
+        private void AddNGame(Player firstPlayer, Player secondPlayer)
         {
             ++firstPlayer.GamesWon;
             if(firstPlayer.GamesWon < 6)
@@ -90,7 +96,19 @@ namespace TennisScore
             }
             else if(secondPlayer.GamesWon == 6)
             {
-
+                
+            }
+        }
+        public void AddScopeTimeBreak(Player firstPlayer, Player secondPlayer)
+        {
+            ++firstPlayer.Score;
+            if (firstPlayer.Score < 7)
+                return;
+            else if(Math.Abs(firstPlayer.Score - secondPlayer.Score) >= 2)
+            {
+                //выигрыш (сета)
+                firstPlayer.Score = 0;
+                secondPlayer.Score = 0;
             }
         }
     }
