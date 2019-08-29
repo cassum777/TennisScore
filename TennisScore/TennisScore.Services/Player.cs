@@ -28,5 +28,7 @@ namespace TennisScore.Services
 
         public int SetWon { get; set; }
 
+        public bool IsServe { get; set; }
+
     }
 }

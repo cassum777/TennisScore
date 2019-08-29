@@ -41,6 +41,8 @@ namespace TennisScore
                 AddNGame(firstPlayer, secondPlayer);
                 firstPlayer.Score = 0;
                 secondPlayer.Score = 0;
+                firstPlayer.IsServe = !firstPlayer.IsServe;
+                secondPlayer.IsServe = !secondPlayer.IsServe;
             }
             else if (secondPlayer.Ad)
             {
@@ -55,6 +57,8 @@ namespace TennisScore
                 firstPlayer.Score = 0;
                 secondPlayer.Score = 0;
                 firstPlayer.Ad = false;
+                firstPlayer.IsServe = !firstPlayer.IsServe;
+                secondPlayer.IsServe = !secondPlayer.IsServe;
             }
             else
             {
