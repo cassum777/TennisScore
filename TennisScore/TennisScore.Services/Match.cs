@@ -10,7 +10,7 @@ namespace TennisScore
 {
     public class Match
     {
-        public Player[] Players { get; }
+        public Player[] Players { get; private set; }
         public Match(Player[] players, int nset)
         {
             Players = players;

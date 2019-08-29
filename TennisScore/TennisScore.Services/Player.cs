@@ -13,10 +13,16 @@ namespace TennisScore.Services
 
         public string Name { get; set; }
 
-        public string ScoreString => Ad ? "Ad" : Score.ToString();
+        public string ScoreString
+        {
+            get 
+            {
+                return Ad ? "Ad" : Score.ToString();
+            }
+        }
         public int Score { get; set; }
 
-        public bool Ad { get; set; } = false;
+        public bool Ad { get; set; }
 
         public int GamesWon { get; set; }
 
