@@ -29,6 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.pnlPlayers = new System.Windows.Forms.Panel();
             this.pnlPlayer2 = new System.Windows.Forms.Panel();
             this.pbBallPlayer2 = new System.Windows.Forms.PictureBox();
@@ -54,17 +59,17 @@
             this.lblTime = new System.Windows.Forms.Label();
             this.lblNameTime = new System.Windows.Forms.Label();
             this.dgSummMatch = new System.Windows.Forms.DataGridView();
+            this.pnlLableSum = new System.Windows.Forms.Panel();
+            this.lblSummMatch = new System.Windows.Forms.Label();
+            this.tMatchDuration = new System.Windows.Forms.Timer(this.components);
+            this.mMenu = new System.Windows.Forms.MenuStrip();
+            this.alterDataPlayer = new System.Windows.Forms.ToolStripMenuItem();
             this.Player = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.set1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.set2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.set3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.set4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.set5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pnlLableSum = new System.Windows.Forms.Panel();
-            this.lblSummMatch = new System.Windows.Forms.Label();
-            this.tMatchDuration = new System.Windows.Forms.Timer(this.components);
-            this.mMenu = new System.Windows.Forms.MenuStrip();
-            this.alterDataPlayer = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlPlayers.SuspendLayout();
             this.pnlPlayer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbBallPlayer2)).BeginInit();
@@ -122,7 +127,7 @@
             this.lblNamePlayer2.AutoEllipsis = true;
             this.lblNamePlayer2.BackColor = System.Drawing.SystemColors.Control;
             this.lblNamePlayer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblNamePlayer2.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblNamePlayer2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblNamePlayer2.Location = new System.Drawing.Point(0, 0);
             this.lblNamePlayer2.Name = "lblNamePlayer2";
             this.lblNamePlayer2.Size = new System.Drawing.Size(400, 70);
@@ -156,7 +161,7 @@
             this.lblNamePlayer1.AutoEllipsis = true;
             this.lblNamePlayer1.BackColor = System.Drawing.SystemColors.Control;
             this.lblNamePlayer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblNamePlayer1.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblNamePlayer1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblNamePlayer1.Location = new System.Drawing.Point(0, 0);
             this.lblNamePlayer1.Name = "lblNamePlayer1";
             this.lblNamePlayer1.Size = new System.Drawing.Size(400, 70);
@@ -365,55 +370,9 @@
             this.dgSummMatch.Dock = System.Windows.Forms.DockStyle.Top;
             this.dgSummMatch.Location = new System.Drawing.Point(0, 41);
             this.dgSummMatch.Name = "dgSummMatch";
+            this.dgSummMatch.ReadOnly = true;
             this.dgSummMatch.Size = new System.Drawing.Size(882, 144);
             this.dgSummMatch.TabIndex = 1;
-            // 
-            // Player
-            // 
-            this.Player.HeaderText = "Игрок";
-            this.Player.Name = "Player";
-            this.Player.ReadOnly = true;
-            this.Player.Width = 300;
-            // 
-            // set1
-            // 
-            this.set1.HeaderText = "1-й сет";
-            this.set1.MinimumWidth = 70;
-            this.set1.Name = "set1";
-            this.set1.ReadOnly = true;
-            this.set1.Width = 70;
-            // 
-            // set2
-            // 
-            this.set2.HeaderText = "2-й сет";
-            this.set2.MinimumWidth = 70;
-            this.set2.Name = "set2";
-            this.set2.ReadOnly = true;
-            this.set2.Width = 70;
-            // 
-            // set3
-            // 
-            this.set3.HeaderText = "3-й сет";
-            this.set3.MinimumWidth = 70;
-            this.set3.Name = "set3";
-            this.set3.ReadOnly = true;
-            this.set3.Width = 70;
-            // 
-            // set4
-            // 
-            this.set4.HeaderText = "4-й сет";
-            this.set4.MinimumWidth = 70;
-            this.set4.Name = "set4";
-            this.set4.ReadOnly = true;
-            this.set4.Width = 70;
-            // 
-            // set5
-            // 
-            this.set5.HeaderText = "5-й сет";
-            this.set5.MinimumWidth = 70;
-            this.set5.Name = "set5";
-            this.set5.ReadOnly = true;
-            this.set5.Width = 70;
             // 
             // pnlLableSum
             // 
@@ -455,6 +414,69 @@
             this.alterDataPlayer.Size = new System.Drawing.Size(81, 20);
             this.alterDataPlayer.Text = "Новая игра";
             this.alterDataPlayer.Click += new System.EventHandler(this.alterDataPlayer_Click);
+            // 
+            // Player
+            // 
+            this.Player.HeaderText = "Игрок";
+            this.Player.Name = "Player";
+            this.Player.ReadOnly = true;
+            this.Player.Width = 300;
+            // 
+            // set1
+            // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle1.NullValue = null;
+            this.set1.DefaultCellStyle = dataGridViewCellStyle1;
+            this.set1.HeaderText = "1-й сет";
+            this.set1.MinimumWidth = 70;
+            this.set1.Name = "set1";
+            this.set1.ReadOnly = true;
+            this.set1.Width = 70;
+            // 
+            // set2
+            // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.set2.DefaultCellStyle = dataGridViewCellStyle2;
+            this.set2.HeaderText = "2-й сет";
+            this.set2.MinimumWidth = 70;
+            this.set2.Name = "set2";
+            this.set2.ReadOnly = true;
+            this.set2.Width = 70;
+            // 
+            // set3
+            // 
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.set3.DefaultCellStyle = dataGridViewCellStyle3;
+            this.set3.HeaderText = "3-й сет";
+            this.set3.MinimumWidth = 70;
+            this.set3.Name = "set3";
+            this.set3.ReadOnly = true;
+            this.set3.Width = 70;
+            // 
+            // set4
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.set4.DefaultCellStyle = dataGridViewCellStyle4;
+            this.set4.HeaderText = "4-й сет";
+            this.set4.MinimumWidth = 70;
+            this.set4.Name = "set4";
+            this.set4.ReadOnly = true;
+            this.set4.Width = 70;
+            // 
+            // set5
+            // 
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopCenter;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Times New Roman", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.set5.DefaultCellStyle = dataGridViewCellStyle5;
+            this.set5.HeaderText = "5-й сет";
+            this.set5.MinimumWidth = 70;
+            this.set5.Name = "set5";
+            this.set5.ReadOnly = true;
+            this.set5.Width = 70;
             // 
             // fmMain
             // 
@@ -521,12 +543,6 @@
         private System.Windows.Forms.Button btnUndo;
         private System.Windows.Forms.Panel panelMatchSum;
         private System.Windows.Forms.DataGridView dgSummMatch;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Player;
-        private System.Windows.Forms.DataGridViewTextBoxColumn set1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn set2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn set3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn set4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn set5;
         private System.Windows.Forms.Panel pnlLableSum;
         private System.Windows.Forms.Label lblSummMatch;
         private System.Windows.Forms.Panel pnlTime;
@@ -536,6 +552,12 @@
         private System.Windows.Forms.Button btnStopTimer;
         private System.Windows.Forms.MenuStrip mMenu;
         private System.Windows.Forms.ToolStripMenuItem alterDataPlayer;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Player;
+        private System.Windows.Forms.DataGridViewTextBoxColumn set1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn set2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn set3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn set4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn set5;
     }
 }
 
