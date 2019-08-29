@@ -16,7 +16,7 @@ namespace TennisScore
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new fmStart());
+            Application.Run(new fmMain());
         }
     }
 }

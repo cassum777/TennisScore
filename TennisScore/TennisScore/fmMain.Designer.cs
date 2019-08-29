@@ -255,7 +255,7 @@
             this.btnPlayer2.TabIndex = 1;
             this.btnPlayer2.Text = "Выиграно очко";
             this.btnPlayer2.UseVisualStyleBackColor = false;
-            this.btnPlayer2.Click += new System.EventHandler(this.btnPlayer2_Click);
+            this.btnPlayer2.Click += new System.EventHandler(this.BtnPlayer2_Click);
             // 
             // pnlButtonPlayer1
             // 
@@ -277,7 +277,7 @@
             this.btnPlayer1.TabIndex = 0;
             this.btnPlayer1.Text = "Выиграно очко";
             this.btnPlayer1.UseVisualStyleBackColor = false;
-            this.btnPlayer1.Click += new System.EventHandler(this.btnPlayer1_Click);
+            this.btnPlayer1.Click += new System.EventHandler(this.BtnPlayer1_Click);
             // 
             // pnlUndo
             // 
@@ -333,7 +333,7 @@
             this.btnStopTimer.TabIndex = 2;
             this.btnStopTimer.Text = "Стоп/старт таймер";
             this.btnStopTimer.UseVisualStyleBackColor = false;
-            this.btnStopTimer.Click += new System.EventHandler(this.btnStopTimer_Click);
+            this.btnStopTimer.Click += new System.EventHandler(this.BtnStopTimer_Click);
             // 
             // lblTime
             // 
@@ -396,7 +396,7 @@
             // tMatchDuration
             // 
             this.tMatchDuration.Interval = 1000;
-            this.tMatchDuration.Tick += new System.EventHandler(this.tMatchDuration_Tick);
+            this.tMatchDuration.Tick += new System.EventHandler(this.TMatchDuration_Tick);
             // 
             // mMenu
             // 
@@ -413,7 +413,7 @@
             this.alterDataPlayer.Name = "alterDataPlayer";
             this.alterDataPlayer.Size = new System.Drawing.Size(81, 20);
             this.alterDataPlayer.Text = "Новая игра";
-            this.alterDataPlayer.Click += new System.EventHandler(this.alterDataPlayer_Click);
+            this.alterDataPlayer.Click += new System.EventHandler(this.AlterDataPlayer_Click);
             // 
             // Player
             // 

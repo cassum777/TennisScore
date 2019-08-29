@@ -8,15 +8,32 @@ using TennisScore.Services.Enums;
 
 namespace TennisScore
 {
+    public delegate void ChangedEventHandler();
     public class Match
     {
-        public bool TimeBreak { get; set; }
-        public Player[] Players { get; private set; }
-        public Match(Player[] players, int nset)
+        public Match(Action hanged)
         {
-            Players = players;
-            NSets = nset;
+            _changed = hanged;
         }
+        private bool _victory;
+        private event Action _changed;
+        public bool Tiebreak { get; set; }
+        public Player[] Players { get; set; }
+
+        public bool Victory
+        {
+            get 
+            {
+                return _victory;
+            }
+            set 
+            {
+                _victory = value;
+                if(value)
+                    _changed();
+            }
+        }
+
         public int NSets { get; set; }
 
         private void AddScore(Player firstPlayer, Player secondPlayer)
@@ -67,7 +84,7 @@ namespace TennisScore
         }
         public void AddScore(PlayerType player)
         {
-            if (!TimeBreak)
+            if (!Tiebreak)
             {
                 if(player == PlayerType.FirstPlayer)
                     AddScore(Players[0], Players[1]);
@@ -77,9 +94,9 @@ namespace TennisScore
             else
             {
                 if (player == PlayerType.FirstPlayer)
-                    AddScopeTimeBreak(Players[0], Players[1]);
+                    AddScoreTiebreak(Players[0], Players[1]);
                 else
-                    AddScopeTimeBreak(Players[1], Players[0]);
+                    AddScoreTiebreak(Players[1], Players[0]);
             }
         }
 
@@ -91,15 +108,16 @@ namespace TennisScore
             else if(Math.Abs(firstPlayer.GamesWon - secondPlayer.GamesWon) > 1)
             {
                 //выигрыш (сета) первого играка
+                AddScoreSets(firstPlayer);
                 firstPlayer.GamesWon = 0;
                 secondPlayer.GamesWon = 0;
             }
             else if(secondPlayer.GamesWon == 6)
             {
-                
+                AddScoreTiebreak(firstPlayer, secondPlayer);
             }
         }
-        public void AddScopeTimeBreak(Player firstPlayer, Player secondPlayer)
+        private void AddScoreTiebreak(Player firstPlayer, Player secondPlayer)
         {
             ++firstPlayer.Score;
             if (firstPlayer.Score < 7)
@@ -107,8 +125,19 @@ namespace TennisScore
             else if(Math.Abs(firstPlayer.Score - secondPlayer.Score) >= 2)
             {
                 //выигрыш (сета)
+                AddScoreSets(firstPlayer);
                 firstPlayer.Score = 0;
                 secondPlayer.Score = 0;
+            }
+        }
+        private void AddScoreSets(Player firstPlayer)
+        {
+            ++firstPlayer.SetsWon;
+            var k = (NSets < 5) ? 2 : 3; 
+            if(firstPlayer.SetsWon == k)
+            {
+                //выигрыш
+                Victory = true;
             }
         }
     }

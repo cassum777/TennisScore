@@ -1,6 +1,6 @@
 ﻿namespace TennisScore
 {
-    partial class fmStart
+    partial class FmStart
     {
         /// <summary>
         /// Required designer variable.
@@ -61,7 +61,7 @@
             this.tbNameFirsPlayer.Name = "tbNameFirsPlayer";
             this.tbNameFirsPlayer.Size = new System.Drawing.Size(361, 30);
             this.tbNameFirsPlayer.TabIndex = 1;
-            this.tbNameFirsPlayer.TextChanged += new System.EventHandler(this.tbNameFirsPlayer_TextChanged);
+            this.tbNameFirsPlayer.TextChanged += new System.EventHandler(this.TbNameFirsPlayer_TextChanged);
             // 
             // tbNameSecondPlayer
             // 
@@ -71,7 +71,7 @@
             this.tbNameSecondPlayer.Name = "tbNameSecondPlayer";
             this.tbNameSecondPlayer.Size = new System.Drawing.Size(361, 30);
             this.tbNameSecondPlayer.TabIndex = 3;
-            this.tbNameSecondPlayer.TextChanged += new System.EventHandler(this.tbNameSecondPlayer_TextChanged);
+            this.tbNameSecondPlayer.TextChanged += new System.EventHandler(this.TbNameSecondPlayer_TextChanged);
             // 
             // lblNamePlayer2
             // 
@@ -159,7 +159,7 @@
             this.btnStartGame.TabIndex = 6;
             this.btnStartGame.Text = "Начать игру";
             this.btnStartGame.UseVisualStyleBackColor = false;
-            this.btnStartGame.Click += new System.EventHandler(this.btnStartGame_Click);
+            this.btnStartGame.Click += new System.EventHandler(this.BtnStartGame_Click);
             // 
             // fmStart
             // 
