@@ -24,16 +24,24 @@ namespace TennisScore
             rbPlayer1.Text = string.Empty;
             rbPlayer2.Text = string.Empty;
             rbColSet3.Checked = true;
+            ChangeData();
+        }
+
+        private void ChangeData() 
+        {
+            btnStartGame.Enabled = (tbNameFirsPlayer.Text != String.Empty) && (tbNameSecondPlayer.Text != String.Empty);         
         }
 
         private void TbNameFirsPlayer_TextChanged(object sender, EventArgs e)
         {
             rbPlayer1.Text = tbNameFirsPlayer.Text;
+            ChangeData();
         }
 
         private void TbNameSecondPlayer_TextChanged(object sender, EventArgs e)
         {
             rbPlayer2.Text = tbNameSecondPlayer.Text;
+            ChangeData();
         }
 
 
