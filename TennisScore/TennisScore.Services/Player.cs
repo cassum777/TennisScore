@@ -26,9 +26,6 @@ namespace TennisScore.Services
 
         public bool Ad { get; set; }
 
-        //public int GamesWon { get; set; }
-        //public int SetsWon { get; set; }
-
         public bool IsServe { get; set; }
 
         public List<SetGame> SetsGame { get; private set; }
