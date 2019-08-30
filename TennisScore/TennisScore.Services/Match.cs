@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TennisScore.Services;
 using TennisScore.Services.Enums;
 
@@ -11,26 +8,38 @@ namespace TennisScore
     public delegate void ChangedEventHandler();
     public class Match
     {
-        public Match(Action hanged)
-        {
-            _changed = hanged;
-        }
         private bool _victory;
-        private event Action _changed;
+        private event Action Changed;
+        private int _currenSet = 0;
         public bool Tiebreak { get; set; }
         public Player[] Players { get; set; }
 
+        public int CurrenSet
+        {
+            get {
+                return _currenSet + 1;
+            }
+            set {
+                _currenSet++;
+                Players[0].SetsGame.Add(new SetGame(value));
+                Players[1].SetsGame.Add(new SetGame(value));
+            }
+        }
+        public Match(Action hanged)
+        {
+            Changed = hanged;
+        }
         public bool Victory
         {
             get 
             {
                 return _victory;
             }
-            set 
+            private set 
             {
                 _victory = value;
                 if(value)
-                    _changed();
+                    Changed();
             }
         }
 
@@ -102,17 +111,16 @@ namespace TennisScore
 
         private void AddNGame(Player firstPlayer, Player secondPlayer)
         {
-            ++firstPlayer.GamesWon;
-            if(firstPlayer.GamesWon < 6)
+            ++firstPlayer.SetsGame[_currenSet].GamesWon;
+            if(firstPlayer.SetsGame[_currenSet].GamesWon < 6)
                 return;
-            else if(Math.Abs(firstPlayer.GamesWon - secondPlayer.GamesWon) > 1)
+            else if(Math.Abs((int)firstPlayer.SetsGame[_currenSet].GamesWon - (int)secondPlayer.SetsGame[_currenSet].GamesWon) > 1)
             {
                 //выигрыш (сета) первого играка
+                firstPlayer.SetsGame[_currenSet].Won = true;
                 AddScoreSets(firstPlayer);
-                firstPlayer.GamesWon = 0;
-                secondPlayer.GamesWon = 0;
             }
-            else if(secondPlayer.GamesWon == 6)
+            else if(secondPlayer.SetsGame[_currenSet].GamesWon == 6)
             {
                 AddScoreTiebreak(firstPlayer, secondPlayer);
             }
@@ -125,6 +133,8 @@ namespace TennisScore
             else if(Math.Abs(firstPlayer.Score - secondPlayer.Score) >= 2)
             {
                 //выигрыш (сета)
+                firstPlayer.SetsGame[_currenSet].Won = true;
+                ++CurrenSet;
                 AddScoreSets(firstPlayer);
                 firstPlayer.Score = 0;
                 secondPlayer.Score = 0;
@@ -132,13 +142,16 @@ namespace TennisScore
         }
         private void AddScoreSets(Player firstPlayer)
         {
-            ++firstPlayer.SetsWon;
+            firstPlayer.SetsGame[_currenSet].Won = true;
+
             var k = (NSets < 5) ? 2 : 3; 
-            if(firstPlayer.SetsWon == k)
+            if(firstPlayer.SetsGame.Where(x => x.Won == true).Count() == k)
             {
                 //выигрыш
                 Victory = true;
+                return;
             }
+            ++CurrenSet;
         }
     }
 }

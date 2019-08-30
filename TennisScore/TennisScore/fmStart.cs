@@ -47,7 +47,7 @@ namespace TennisScore
 
         private void BtnStartGame_Click(object sender, EventArgs e)
         {
-            _match.NSets = rbColSet3.Checked ? 3 : 5;
+            _match.NSets = rbColSet3.Checked ? 3 : 5; ;
             _match.Players = new Player[]
             {
                 new Player(){ Name = tbNameFirsPlayer.Text, PlayerType = PlayerType.FirstPlayer, IsServe = rbPlayer1.Checked },

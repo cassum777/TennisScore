@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TennisScore.Services.Enums;
 
 namespace TennisScore.Services
 {
     public class Player
     {
+        public Player()
+        {
+            SetsGame = new List<SetGame>() { new SetGame(1) };
+        }
+
         public PlayerType PlayerType { get; set; }
 
         public string Name { get; set; }
@@ -24,9 +26,12 @@ namespace TennisScore.Services
 
         public bool Ad { get; set; }
 
-        public int GamesWon { get; set; }
+        //public int GamesWon { get; set; }
+        //public int SetsWon { get; set; }
 
-        public int SetsWon { get; set; }
         public bool IsServe { get; set; }
+
+        public List<SetGame> SetsGame { get; private set; }
+
     }
 }

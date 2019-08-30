@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using TennisScore.Services;
 using TennisScore.Services.Enums;
@@ -47,7 +42,7 @@ namespace TennisScore
         private void TMatchDuration_Tick(object sender, EventArgs e)
         {
             var tick = DateTime.Now.Subtract(startTime);
-            lblTime.Text = String.Format("{0}:{1}:{2}", tick.Hours.ToString().PadLeft(2, '0'), tick.Minutes.ToString().PadLeft(2, '0'), tick.Seconds.ToString().PadLeft(2, '0'));
+            lblTime.Text = tick.ToString(@"h\:mm\:ss");
         }
 
         private void BtnStopTimer_Click(object sender, EventArgs e)
@@ -94,9 +89,12 @@ namespace TennisScore
             pbBallPlayer1.Visible = _players[0].IsServe;
             pbBallPlayer2.Visible = _players[1].IsServe;
 
-            for(var i = 0; i < 2; i++)
+            for(var i = 0; i < _players.Length; i++)
             {
-                dgSummMatch.Rows[i].Cells[1].Value = _players[i].GamesWon.ToString();
+                for(var j = 0; j < _players[i].SetsGame.Count; j++)
+                {
+                    dgSummMatch.Rows[i].Cells[j+1].Value = _players[i].SetsGame[j].GamesWon.ToString();
+                }
             }
   
 
