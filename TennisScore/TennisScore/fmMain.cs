@@ -75,7 +75,7 @@ namespace TennisScore
 
         private void FmMain_FormClosed(object sender, FormClosedEventArgs e)
         {
-            //this.Dispose();
+            Dispose();
         }
 
         private void Victory()
@@ -96,8 +96,6 @@ namespace TennisScore
                     dgSummMatch.Rows[i].Cells[j+1].Value = _players[i].SetsGame[j].GamesWon.ToString();
                 }
             }
-  
-
         }
     }
 }
