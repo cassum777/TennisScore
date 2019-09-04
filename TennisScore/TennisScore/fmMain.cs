@@ -19,6 +19,9 @@ namespace TennisScore
             _match = new Match(Victory);
             new FmStart(_match).ShowDialog();
             _players = _match.Players;
+            _players[0].SetsGame[0].TieBreakWon = -1;
+            _players[1].SetsGame[0].TieBreakWon = -1;
+
             lblScorePlayer1.Text = "0";
             lblScorePlayer2.Text = "0";
             lblTime.Text = "00:00:00";
@@ -81,6 +84,7 @@ namespace TennisScore
         private void Victory()
         {
             MessageBox.Show("Игра закончена!");
+            tMatchDuration.Enabled = false;
         }
         private void UpdatePlayers()
         {
@@ -93,7 +97,9 @@ namespace TennisScore
             {
                 for(var j = 0; j < _players[i].SetsGame.Count; j++)
                 {
+                    if (_players[i].SetsGame[j].TieBreakWon < 0)
                     dgSummMatch.Rows[i].Cells[j+1].Value = _players[i].SetsGame[j].GamesWon.ToString();
+                    else dgSummMatch.Rows[i].Cells[j + 1].Value = _players[i].SetsGame[j].GamesWon.ToString() + " (" + _players[i].SetsGame[j].TieBreakWon.ToString() + ")";
                 }
             }
         }

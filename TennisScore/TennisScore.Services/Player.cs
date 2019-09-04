@@ -19,15 +19,19 @@ namespace TennisScore.Services
         {
             get 
             {
-                return Ad ? "Ad" : Score.ToString();
+                if (TieBreakScore == 0)
+                    return Ad ? "Ad" : Score.ToString();
+                else return TieBreakScore.ToString();
             }
         }
         public int Score { get; set; }
 
+        public int TieBreakScore { get; set; }
+
         public bool Ad { get; set; }
 
         public bool IsServe { get; set; }
-
+        
         public List<SetGame> SetsGame { get; private set; }
 
     }

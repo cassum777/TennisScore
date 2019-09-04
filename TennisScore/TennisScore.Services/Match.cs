@@ -75,7 +75,7 @@ namespace TennisScore
             {
                 //выигрыш первого игрока
                 AddNGame(firstPlayer, secondPlayer);
-                RollbackScore();
+                //RollbackScore();
 
             }
             else if (secondPlayer.Ad)
@@ -88,7 +88,7 @@ namespace TennisScore
             {
                 //выигрыш первого игрока
                 AddNGame(firstPlayer, secondPlayer);
-                RollbackScore();
+                //RollbackScore();
                 firstPlayer.Ad = false;
             }
             else
@@ -96,12 +96,16 @@ namespace TennisScore
                 firstPlayer.Ad = true;
             }
         }
+
+
         private void RollbackScore()
         {
             foreach(var player in Players)
             {
                 player.Score = 0;
                 player.IsServe = !player.IsServe;
+                player.TieBreakScore = 0;
+                player.SetsGame[_currenSet].TieBreakWon = -1;
             }
         }
         public void AddScore(PlayerType player)
@@ -125,33 +129,65 @@ namespace TennisScore
         private void AddNGame(Player firstPlayer, Player secondPlayer)
         {
             ++firstPlayer.SetsGame[_currenSet].GamesWon;
-            if(firstPlayer.SetsGame[_currenSet].GamesWon < 6)
+            if (firstPlayer.SetsGame[_currenSet].GamesWon < 6)
+            {
+                RollbackScore();
                 return;
-            else if(Math.Abs(firstPlayer.SetsGame[_currenSet].GamesWon - secondPlayer.SetsGame[_currenSet].GamesWon) > 1)
+            }
+            else if ((Math.Abs(firstPlayer.SetsGame[_currenSet].GamesWon - secondPlayer.SetsGame[_currenSet].GamesWon) > 1) || (firstPlayer.SetsGame[_currenSet].GamesWon == 7))
             {
                 //выигрыш (сета) первого играка
                 firstPlayer.SetsGame[_currenSet].Won = true;
                 AddScoreSets(firstPlayer);
+                RollbackScore();
             }
-            else if(secondPlayer.SetsGame[_currenSet].GamesWon == 6)
+            else if (secondPlayer.SetsGame[_currenSet].GamesWon == 6)
             {
                 AddScoreTiebreak(firstPlayer, secondPlayer);
             }
+            else RollbackScore();
         }
         private void AddScoreTiebreak(Player firstPlayer, Player secondPlayer)
         {
-            ++firstPlayer.Score;
-            if (firstPlayer.Score < 7)
-                return;
-            else if(Math.Abs(firstPlayer.Score - secondPlayer.Score) >= 2)
+            if (!Tiebreak) 
             {
-                //выигрыш (сета)
-                firstPlayer.SetsGame[_currenSet].Won = true;
-                ++CurrenSet;
-                AddScoreSets(firstPlayer);
                 firstPlayer.Score = 0;
                 secondPlayer.Score = 0;
+                firstPlayer.SetsGame[_currenSet].TieBreakWon = 0;
+                secondPlayer.SetsGame[_currenSet].TieBreakWon = 0;
+                Tiebreak = true;
+                return;
             }
+
+            ++firstPlayer.TieBreakScore;
+            firstPlayer.SetsGame[_currenSet].TieBreakWon = firstPlayer.TieBreakScore;
+            //в tiebreak 1 подачу подает подающий до этого игрок, затем подают по 2 подачи каждый
+            if ((firstPlayer.TieBreakScore + secondPlayer.TieBreakScore) % 2 == 1) //сумма не четная
+            {
+                firstPlayer.IsServe = !firstPlayer.IsServe;
+                secondPlayer.IsServe = !secondPlayer.IsServe;
+            }
+
+            if (firstPlayer.TieBreakScore < 7)
+                return;
+            else if (Math.Abs(firstPlayer.TieBreakScore - secondPlayer.TieBreakScore) >= 2)
+            {
+                //выигрыш первого игрока
+                AddNGame(firstPlayer, secondPlayer);
+                Tiebreak = false;
+            }
+            //++firstPlayer.SetsGame[_currenSet].GamesWon;
+            //if (firstPlayer.SetsGame[_currenSet].GamesWon < 7)
+            //   return;
+            //else if(Math.Abs(firstPlayer.SetsGame[_currenSet].GamesWon - secondPlayer.SetsGame[_currenSet].GamesWon) >= 2)
+            //{
+            //    //выигрыш (сета)
+            //    firstPlayer.SetsGame[_currenSet].Won = true;
+            //    ++CurrenSet;
+            //    AddScoreSets(firstPlayer);
+            //    firstPlayer.Score = 0;
+            //    secondPlayer.Score = 0;
+            //}
         }
         private void AddScoreSets(Player firstPlayer)
         {
