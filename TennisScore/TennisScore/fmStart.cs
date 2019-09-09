@@ -8,7 +8,11 @@ namespace TennisScore
 {
     public partial class FmStart : Form
     {
+        #region Fields
         Match _match;
+        #endregion
+
+        #region Constructor
         public FmStart(Match match)
         {
             InitializeComponent();
@@ -19,25 +23,37 @@ namespace TennisScore
             rbColSet3.Checked = true;
             ChangeData();
         }
+        #endregion
 
-        private void ChangeData() 
-        {
-            btnStartGame.Enabled = (tbNameFirsPlayer.Text != String.Empty) && (tbNameSecondPlayer.Text != String.Empty);         
-        }
-
+        /// <summary>
+        /// Событие, при вводе букв имени первого игрока
+        /// </summary>
         private void TbNameFirsPlayer_TextChanged(object sender, EventArgs e)
         {
             rbPlayer1.Text = tbNameFirsPlayer.Text;
             ChangeData();
         }
 
+        /// <summary>
+        /// Событие, при вводе букв имени второго игрока
+        /// </summary>
         private void TbNameSecondPlayer_TextChanged(object sender, EventArgs e)
         {
             rbPlayer2.Text = tbNameSecondPlayer.Text;
             ChangeData();
         }
 
+        /// <summary>
+        /// Блокировка начала игры, при отсуствии заполненных имен игроков
+        /// </summary>
+        private void ChangeData()
+        {
+            btnStartGame.Enabled = (tbNameFirsPlayer.Text != string.Empty) && (tbNameSecondPlayer.Text != string.Empty);
+        }
 
+        /// <summary>
+        /// Событие сохранения данных о матче и игроках
+        /// </summary>
         private void BtnStartGame_Click(object sender, EventArgs e)
         {
             _match.CountSets = rbColSet3.Checked ? 3 : 5; ;

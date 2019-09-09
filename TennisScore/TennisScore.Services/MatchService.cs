@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TennisScore.Services.Enums;
 
 namespace TennisScore.Services
 {
+    /// <summary>
+    /// Сервис по подсчету статистики игры
+    /// </summary>
     public class MatchService
     {
         #region Fields
@@ -31,9 +32,9 @@ namespace TennisScore.Services
         public void AddScore(PlayerType player)
         {
             if (player == PlayerType.FirstPlayer)
-                AddScore(_players[0], _players[1]);
+                AddPointsToTheGame(_players[0], _players[1]);
             else
-                AddScore(_players[1], _players[0]);
+                AddPointsToTheGame(_players[1], _players[0]);
         }
 
         /// <summary>
@@ -41,7 +42,7 @@ namespace TennisScore.Services
         /// </summary>
         /// <param name="firstPlayer">Текущещий игрок</param>
         /// <param name="secondPlayer">Второй игрой</param>
-        private void AddScore(Player firstPlayer, Player secondPlayer)
+        private void AddPointsToTheGame(Player firstPlayer, Player secondPlayer)
         {
             var gameFP = firstPlayer.Sets.Last().Games.Last();
             var gameSP = secondPlayer.Sets.Last().Games.Last();
@@ -65,7 +66,7 @@ namespace TennisScore.Services
                 if (gameSP.Score != 40)
                 {
                     //выигрыш гейма первым игроком
-                    WonGame(firstPlayer, secondPlayer);
+                    FinishGame(firstPlayer, secondPlayer);
                 }
                 else if (gameSP.Ad)
                 {
@@ -74,7 +75,7 @@ namespace TennisScore.Services
                 else if (gameFP.Ad)
                 {
                     //выигрыш гейма первым игроком
-                    WonGame(firstPlayer, secondPlayer);
+                    FinishGame(firstPlayer, secondPlayer);
                 }
                 else
                 {
@@ -90,65 +91,76 @@ namespace TennisScore.Services
                     firstPlayer.IsServe = !firstPlayer.IsServe;
                     secondPlayer.IsServe = !secondPlayer.IsServe;
                 }
-                if(gameFP.Score < 7)
-                {
-                    return;
-                }
-                else if (Math.Abs(gameFP.Score - gameSP.Score) >= 2)
+                else if (gameFP.Score >= 7 && Math.Abs(gameFP.Score - gameSP.Score) >= 2)
                 {
                     //выигрыш первого игрока
-                    WonSet(firstPlayer);
+                    FinishSet(firstPlayer);
                 }
             }
         }
 
-        private void WonGame(Player firstPlayer, Player secondPlayer)
+        /// <summary>
+        /// Окончить гейм (наступает, если кто-то выигрывает гейм)
+        /// </summary>
+        /// <param name="firstPlayer"></param>
+        /// <param name="secondPlayer"></param>
+        private void FinishGame(Player firstPlayer, Player secondPlayer)
         {
             var setFP = firstPlayer.Sets.Last();
             var setSP = secondPlayer.Sets.Last();
 
             setFP.Games.Last().Won = true;
 
-            if (setFP.GamesWon < 6)
+            if (setFP.Score < 6)
             {
                 //=> новые геймы
 
-                UpdateServe();
+                CreateNewGame();
                 return;
             }
-            else if ((Math.Abs(setFP.GamesWon - setSP.GamesWon) > 1) || (setFP.GamesWon == 7))
+            else if ((Math.Abs(setFP.Score - setSP.Score) > 1) || (setFP.Score == 7))
             {
                 //выигрыш (сета) первого играка
-                WonSet(firstPlayer);
+                FinishSet(firstPlayer);
             }
-            else if (setSP.GamesWon == 6)
+            else if (setSP.Score == 6)
             {
-                UpdateServe(tiebreak: true);
+                CreateNewGame(tiebreak: true);
             }
-            else UpdateServe();
+            else CreateNewGame();
         }
-        private void UpdateServe(bool tiebreak = false)
+
+        /// <summary>
+        /// Создать новый гейм
+        /// </summary>
+        /// <param name="tiebreak">Является ли новый гейм таймбрейком? (по умолчанию - ложь)</param>
+        private void CreateNewGame(bool tiebreak = false)
         {
             foreach(var player in _players)
             {
-                player.Sets.Last().Games.Add(new Game() { TieBreak = tiebreak });
+                player.Sets.Last().Games.Add(new GamePlayer() { TieBreak = tiebreak });
                 player.IsServe = !player.IsServe;
             }
         }
 
-        private void WonSet(Player firstPlayer)
+        /// <summary>
+        /// Окончить сет (наступает, если кто-то выигрывает гейм)
+        /// </summary>
+        /// <param name="winner">игрок, выигрвший сет</param>
+        private void FinishSet(Player winner)
         {
-            firstPlayer.Sets.Last().Won = true;
+            winner.Sets.Last().Won = true;
 
-            var k = (_match.CountSets < 5) ? 2 : 3;
-            if (firstPlayer.Sets.Where(x => x.Won == true).Count() == k)
+            var needSetsToWin = (_match.CountSets < 5) ? 2 : 3;
+            //проверка условия, окончания матча
+            if (winner.Sets.Where(x => x.Won == true).Count() >= needSetsToWin)
             {
-                //выигрыш
+                //запуск события окончания матча
                 _hanged();
             }
             else
             {
-                _players.ForEach(x => x.Sets.Add(new Set()));
+                _players.ForEach(x => x.Sets.Add(new SetPlayer()));
             }
         }
     }

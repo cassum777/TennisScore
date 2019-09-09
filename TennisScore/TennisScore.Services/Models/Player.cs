@@ -4,17 +4,31 @@ using TennisScore.Services.Enums;
 
 namespace TennisScore.Services
 {
+    /// <summary>
+    /// Игрок
+    /// </summary>
     public class Player
     {
+        #region Constructor
         public Player()
         {
-            Sets = new List<Set>() { new Set() };
+            Sets = new List<SetPlayer>() { new SetPlayer() };
         }
+        #endregion
 
+        /// <summary>
+        /// Тип игрока
+        /// </summary>
         public PlayerType PlayerType { get; set; }
 
+        /// <summary>
+        /// Имя игрока
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// Текущий счет игрока (геймы)
+        /// </summary>
         public string Score
         {
             get 
@@ -23,8 +37,14 @@ namespace TennisScore.Services
             }
         }
 
+        /// <summary>
+        /// Подает ли игрок? 
+        /// </summary>
         public bool IsServe { get; set; }
         
-        public List<Set> Sets { get; private set; }
+        /// <summary>
+        /// Сеты игрока
+        /// </summary>
+        public List<SetPlayer> Sets { get; private set; }
     }
 }

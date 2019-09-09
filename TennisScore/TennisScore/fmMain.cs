@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
 using TennisScore.Services;
@@ -10,10 +9,14 @@ namespace TennisScore
 {
     public partial class fmMain : Form
     {
+        #region Fields
         Match _match;
         IList<Player> _players;
         DateTime startTime;
         MatchService _matchService;
+        #endregion
+
+        #region Constructor
         public fmMain()
         {
             InitializeComponent();
@@ -45,6 +48,8 @@ namespace TennisScore
 
             _matchService = new MatchService(_match, Victory);
         }
+        #endregion
+
 
         private void TMatchDuration_Tick(object sender, EventArgs e)
         {
@@ -52,45 +57,61 @@ namespace TennisScore
             lblTime.Text = tick.ToString(@"h\:mm\:ss");
         }
 
+        /// <summary>
+        /// Событие, остановки или продолжения отсчета таймера
+        /// </summary>
         private void BtnStopTimer_Click(object sender, EventArgs e)
         {
-            //остановка/запуск таймера
             tMatchDuration.Enabled = !tMatchDuration.Enabled;
         }
 
 
-
+        /// <summary>
+        /// Событие, выигрыша подачи первым игроком
+        /// </summary>
         private void BtnPlayer1_Click(object sender, EventArgs e)
         {
             _matchService.AddScore(PlayerType.FirstPlayer);
-            UpdatePlayers();
+            UpdateMatchStatistics();
         }
 
 
-
+        /// <summary>
+        /// Событие, выигрыша подачи вторым игроком
+        /// </summary>
         private void BtnPlayer2_Click(object sender, EventArgs e)
         {
             _matchService.AddScore(PlayerType.SecondPlayer);
-            UpdatePlayers();
+            UpdateMatchStatistics();
 
         }
 
         private void AlterDataPlayer_Click(object sender, EventArgs e)
         {
-            UpdatePlayers();
+            UpdateMatchStatistics();
         }
 
+        /// <summary>
+        /// Событие закрытия формы
+        /// </summary>
         private void FmMain_FormClosed(object sender, FormClosedEventArgs e)
         {
             Dispose();
         }
 
+        /// <summary>
+        /// Событие победы
+        /// </summary>
         private void Victory()
         {
             MessageBox.Show("Игра закончена!");
             tMatchDuration.Enabled = false;
         }
-        private void UpdatePlayers()
+
+        /// <summary>
+        /// Обновления таблицы счета
+        /// </summary>
+        private void UpdateMatchStatistics()
         {
             lblScorePlayer1.Text = _players[0].Score;
             lblScorePlayer2.Text = _players[1].Score;
@@ -102,10 +123,10 @@ namespace TennisScore
                 for(var j = 0; j < _players[i].Sets.Count; j++)
                 {
                     if (!_players[i].Sets[j].Games.Last().TieBreak)
-                        dgSummMatch.Rows[i].Cells[j+1].Value = _players[i].Sets[j].GamesWon.ToString();
+                        dgSummMatch.Rows[i].Cells[j+1].Value = _players[i].Sets[j].Score.ToString();
                     else
                     {
-                        dgSummMatch.Rows[i].Cells[j + 1].Value = string.Format("{0} ( {1} )", _players[i].Sets[j].GamesWon, _players[i].Sets[j].Games.Last().Score);
+                        dgSummMatch.Rows[i].Cells[j + 1].Value = string.Format("{0} ( {1} )", _players[i].Sets[j].Score, _players[i].Sets[j].Games.Last().Score);
                     }
                 }
             }
