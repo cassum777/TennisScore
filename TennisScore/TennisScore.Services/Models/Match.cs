@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using TennisScore.Services;
 
 namespace TennisScore
@@ -8,14 +10,24 @@ namespace TennisScore
     /// </summary>
     public class Match
     {
+        public Match()
+        {
+            TimeStarting = DateTime.Now;
+        }
+
         /// <summary>
         /// Количество сетов в матче
         /// </summary>
         public int CountSets { get; set; }
 
         /// <summary>
+        /// Время начала матча
+        /// </summary>
+        public DateTime TimeStarting { get; set; }
+
+        /// <summary>
         /// Игроки матча
         /// </summary>
-        public List<Player> Players { get; set; }
+        public List<Player> SetPlayers { get; set; }
     }
 }

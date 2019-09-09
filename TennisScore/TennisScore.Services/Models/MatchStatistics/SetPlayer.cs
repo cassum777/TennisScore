@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace TennisScore.Services
@@ -6,11 +7,12 @@ namespace TennisScore.Services
     /// <summary>
     /// Сет
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn)]
     public class SetPlayer
     {
         public SetPlayer()
         {
-            Games = new List<GamePlayer>() { new GamePlayer() };
+            GamesPlayers = new List<GamePlayer>() { new GamePlayer() };
         }
 
         /// <summary>
@@ -20,17 +22,19 @@ namespace TennisScore.Services
         {
             get
             {
-                return Games.Where(x => x.Won == true).Count();
+                return GamesPlayers.Where(x => x.Won == true).Count();
             }
         }
         /// <summary>
         /// Победа игрока?
         /// </summary>
+        [JsonProperty]
         public bool Won { get; set; }
 
         /// <summary>
         /// Геймы
         /// </summary>
-        public ICollection<GamePlayer> Games { get; set; }
+        [JsonProperty]
+        public ICollection<GamePlayer> GamesPlayers { get; set; }
     }
 }

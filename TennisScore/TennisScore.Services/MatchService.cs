@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json.Schema;
+using Newtonsoft.Json.Schema.Generation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TennisScore.Services.Enums;
@@ -20,7 +22,7 @@ namespace TennisScore.Services
         public MatchService(Match match, Action hanged)
         {
             _match = match;
-            _players = match.Players;
+            _players = match.SetPlayers;
             _hanged = hanged;
         }
         #endregion
@@ -44,8 +46,8 @@ namespace TennisScore.Services
         /// <param name="secondPlayer">Второй игрой</param>
         private void AddPointsToTheGame(Player firstPlayer, Player secondPlayer)
         {
-            var gameFP = firstPlayer.Sets.Last().Games.Last();
-            var gameSP = secondPlayer.Sets.Last().Games.Last();
+            var gameFP = firstPlayer.Sets.Last().GamesPlayers.Last();
+            var gameSP = secondPlayer.Sets.Last().GamesPlayers.Last();
 
             if (!gameFP.TieBreak)
             {
@@ -109,7 +111,7 @@ namespace TennisScore.Services
             var setFP = firstPlayer.Sets.Last();
             var setSP = secondPlayer.Sets.Last();
 
-            setFP.Games.Last().Won = true;
+            setFP.GamesPlayers.Last().Won = true;
 
             if (setFP.Score < 6)
             {
@@ -138,7 +140,7 @@ namespace TennisScore.Services
         {
             foreach(var player in _players)
             {
-                player.Sets.Last().Games.Add(new GamePlayer() { TieBreak = tiebreak });
+                player.Sets.Last().GamesPlayers.Add(new GamePlayer() { TieBreak = tiebreak });
                 player.IsServe = !player.IsServe;
             }
         }
@@ -157,6 +159,9 @@ namespace TennisScore.Services
             {
                 //запуск события окончания матча
                 _hanged();
+
+                var jsonRepository = new JsonMatchRepository();
+                jsonRepository.SaveMatch(_match);
             }
             else
             {

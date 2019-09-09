@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Linq;
 using TennisScore.Services.Enums;
 
@@ -7,6 +8,7 @@ namespace TennisScore.Services
     /// <summary>
     /// Игрок
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn)]
     public class Player
     {
         #region Constructor
@@ -24,6 +26,7 @@ namespace TennisScore.Services
         /// <summary>
         /// Имя игрока
         /// </summary>
+        [JsonProperty]
         public string Name { get; set; }
 
         /// <summary>
@@ -33,7 +36,7 @@ namespace TennisScore.Services
         {
             get 
             {
-                return Sets.Last().Games.Last().Score.ToString();
+                return Sets.Last().GamesPlayers.Last().Score.ToString();
             }
         }
 
@@ -41,10 +44,11 @@ namespace TennisScore.Services
         /// Подает ли игрок? 
         /// </summary>
         public bool IsServe { get; set; }
-        
+
         /// <summary>
         /// Сеты игрока
         /// </summary>
+        [JsonProperty]
         public List<SetPlayer> Sets { get; private set; }
     }
 }

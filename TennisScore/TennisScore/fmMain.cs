@@ -24,7 +24,7 @@ namespace TennisScore
             _match = new Match();
             new FmStart(_match).ShowDialog();
 
-            _players = _match.Players;
+            _players = _match.SetPlayers;
 
 
             lblScorePlayer1.Text = "0";
@@ -122,11 +122,11 @@ namespace TennisScore
             {
                 for(var j = 0; j < _players[i].Sets.Count; j++)
                 {
-                    if (!_players[i].Sets[j].Games.Last().TieBreak)
+                    if (!_players[i].Sets[j].GamesPlayers.Last().TieBreak)
                         dgSummMatch.Rows[i].Cells[j+1].Value = _players[i].Sets[j].Score.ToString();
                     else
                     {
-                        dgSummMatch.Rows[i].Cells[j + 1].Value = string.Format("{0} ( {1} )", _players[i].Sets[j].Score, _players[i].Sets[j].Games.Last().Score);
+                        dgSummMatch.Rows[i].Cells[j + 1].Value = string.Format("{0} ( {1} )", _players[i].Sets[j].Score, _players[i].Sets[j].GamesPlayers.Last().Score);
                     }
                 }
             }

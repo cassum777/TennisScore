@@ -1,8 +1,11 @@
-﻿namespace TennisScore.Services
+﻿using Newtonsoft.Json;
+
+namespace TennisScore.Services
 {
     /// <summary>
     /// Гейм
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn)]
     public class GamePlayer
     {
         /// <summary>
@@ -13,11 +16,13 @@
         /// <summary>
         /// Победа?
         /// </summary>
+        [JsonProperty]
         public bool Won { get; set; }
 
         /// <summary>
         /// Этот гейм, является таймбрейком?
         /// </summary>
+        [JsonProperty]
         public bool TieBreak { get; set; }
 
         /// <summary>
