@@ -10,6 +10,8 @@
 
         public int GamesWon { get; set; }
 
+        public int TieBreakWon { get; set; }
+
         public bool Won { get; set; }
     }
 }
