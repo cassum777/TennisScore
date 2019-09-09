@@ -42,11 +42,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Match.cs" />
+    <Compile Include="Models\MatchStatistics\Game.cs" />
+    <Compile Include="Models\Match.cs" />
     <Compile Include="Enums\PlayerType.cs" />
-    <Compile Include="Player.cs" />
+    <Compile Include="MatchService.cs" />
+    <Compile Include="Models\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SetGame.cs" />
+    <Compile Include="Models\MatchStatistics\Set.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

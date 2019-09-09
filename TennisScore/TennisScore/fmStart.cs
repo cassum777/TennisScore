@@ -1,12 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using TennisScore.Services;
 using TennisScore.Services.Enums;
@@ -47,8 +40,8 @@ namespace TennisScore
 
         private void BtnStartGame_Click(object sender, EventArgs e)
         {
-            _match.NSets = rbColSet3.Checked ? 3 : 5; ;
-            _match.Players = new Player[]
+            _match.CountSets = rbColSet3.Checked ? 3 : 5; ;
+            _match.Players = new List<Player>()
             {
                 new Player(){ Name = tbNameFirsPlayer.Text, PlayerType = PlayerType.FirstPlayer, IsServe = rbPlayer1.Checked },
                 new Player(){ Name = tbNameSecondPlayer.Text, PlayerType = PlayerType.SecondPlayer, IsServe = rbPlayer2.Checked }
