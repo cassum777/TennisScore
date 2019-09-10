@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace TennisScore.Services
 {
     public class JsonMatchRepository
     {
+        static readonly JsonSerializerSettings _jsonSettings = new JsonSerializerSettings() { DateFormatString = "yyyy-MM-dd HH-mm-ss" };
         public string aplicationPath = Environment.CurrentDirectory;
         public string folderName = "MatchStat";
         public JsonMatchRepository()
@@ -46,7 +48,7 @@ namespace TennisScore.Services
             var filename = string.Format("{0}.json", match.TimeStarting.ToString("yyyy'-'MM'-'dd'T'HH'-'mm'-'ss"));
 
             var path = Path.Combine(aplicationPath, folderName, filename);
-            var json = SerializeHelper.SerializeMatch(match);
+            var json = JsonConvert.SerializeObject(match, _jsonSettings);
 
             using (var sw = new StreamWriter(path))
             {
@@ -54,5 +56,17 @@ namespace TennisScore.Services
             }
         }
 
+        //public static T DeSerialize<T>(string json)
+        //{
+        //    var reader = new JsonTextReader(new StringReader(json));
+        //    var validatingReader = new JSchemaValidatingReader(reader);
+        //    validatingReader.Schema = schema;
+
+        //    var serializer = new JsonSerializer();
+        //    var roles = serializer.Deserialize(reader);
+
+        //    var model = JsonConvert.DeserializeObject<T>(json, _jsonSettings);
+        //    return model;
+        //}
     }
 }

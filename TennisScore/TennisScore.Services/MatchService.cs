@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Schema;
-using Newtonsoft.Json.Schema.Generation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using TennisScore.Services.Enums;
@@ -104,8 +102,6 @@ namespace TennisScore.Services
         /// <summary>
         /// Окончить гейм (наступает, если кто-то выигрывает гейм)
         /// </summary>
-        /// <param name="firstPlayer"></param>
-        /// <param name="secondPlayer"></param>
         private void FinishGame(Player firstPlayer, Player secondPlayer)
         {
             var setFP = firstPlayer.Sets.Last();
@@ -116,7 +112,6 @@ namespace TennisScore.Services
             if (setFP.Score < 6)
             {
                 //=> новые геймы
-
                 CreateNewGame();
                 return;
             }
@@ -138,9 +133,11 @@ namespace TennisScore.Services
         /// <param name="tiebreak">Является ли новый гейм таймбрейком? (по умолчанию - ложь)</param>
         private void CreateNewGame(bool tiebreak = false)
         {
+            var indexNumber = _players.First().Sets.Last().GamesPlayers.Last().IndexNumber + 1;
+
             foreach(var player in _players)
             {
-                player.Sets.Last().GamesPlayers.Add(new GamePlayer() { TieBreak = tiebreak });
+                player.Sets.Last().GamesPlayers.Add(new GamePlayer(indexNumber) { TieBreak = tiebreak });
                 player.IsServe = !player.IsServe;
             }
         }
@@ -160,12 +157,12 @@ namespace TennisScore.Services
                 //запуск события окончания матча
                 _hanged();
 
-                var jsonRepository = new JsonMatchRepository();
-                jsonRepository.SaveMatch(_match);
+                new JsonMatchRepository().SaveMatch(_match); 
             }
             else
             {
-                _players.ForEach(x => x.Sets.Add(new SetPlayer()));
+                var indexNumber = winner.Sets.Last().IndexNumber + 1;
+                _players.ForEach(x => x.Sets.Add(new SetPlayer(indexNumber)));
             }
         }
     }

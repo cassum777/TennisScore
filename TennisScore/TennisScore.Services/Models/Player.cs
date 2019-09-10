@@ -14,7 +14,7 @@ namespace TennisScore.Services
         #region Constructor
         public Player()
         {
-            Sets = new List<SetPlayer>() { new SetPlayer() };
+            Sets = new List<SetPlayer>() { new SetPlayer(1) };
         }
         #endregion
 

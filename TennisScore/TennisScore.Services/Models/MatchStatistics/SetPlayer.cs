@@ -10,9 +10,10 @@ namespace TennisScore.Services
     [JsonObject(MemberSerialization.OptIn)]
     public class SetPlayer
     {
-        public SetPlayer()
+        public SetPlayer(int indexNumber)
         {
-            GamesPlayers = new List<GamePlayer>() { new GamePlayer() };
+            IndexNumber = indexNumber;
+            GamesPlayers = new List<GamePlayer>() { new GamePlayer(1) };
         }
 
         /// <summary>
@@ -30,6 +31,12 @@ namespace TennisScore.Services
         /// </summary>
         [JsonProperty]
         public bool Won { get; set; }
+
+        /// <summary>
+        /// Порядковый номер сета
+        /// </summary>
+        [JsonProperty]
+        public int IndexNumber { get; set; }
 
         /// <summary>
         /// Геймы
